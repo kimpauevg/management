@@ -13,9 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'StaffController@index');
 
-Route::resource('/employee', 'EmployeeController');
-Route::resource('/staff', 'StaffController');
+Route::post('/staff/pay', 'StaffController@pay');
+Route::resource('/staff', 'StaffController')->except('update');
+Route::post('/staff/{staff}', 'StaffController@update');

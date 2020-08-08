@@ -16,10 +16,11 @@ class CreateManagerAndEmployeeTable extends Migration
         Schema::create('employee', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('belongs_to_manager');
             $table->string('name');
-            $table->string('phone', 11)->nullable();
+            $table->string('phone', 11)->nullable()->default(null);
             $table->unsignedFloat('salary');
+            $table->unsignedSmallInteger('salary_type');
+            $table->unsignedBigInteger('belongs_to_manager')->nullable()->default(null);
 
         });
         Schema::create('manager', function (Blueprint $table) {

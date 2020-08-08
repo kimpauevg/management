@@ -6,9 +6,15 @@ namespace App\Models\Staff;
 
 interface StaffMember
 {
-    public static function createRules();
+    /**
+     * Returns salary amount
+     * @return string
+     */
+    public function countSalary(): string;
 
-    public static function find($params);
-
-    public function countSalary();
+    /**
+     * Returns staff's position name
+     * @return string
+     */
+    public function getPositionName(): string;
 }
