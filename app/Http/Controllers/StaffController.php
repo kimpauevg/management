@@ -71,6 +71,7 @@ class StaffController extends Controller
      */
     public function edit($id)
     {
+        /** @var Employee $employee */
         $employee = Employee::find($id);
         if (!$employee) {
             abort(404);
@@ -122,7 +123,7 @@ class StaffController extends Controller
             }
             $as_manager->setSubordinates($request_data['subordinate'] ?? []);
         } else {
-            if($as_manager) {
+            if ($as_manager) {
                 $as_manager->delete();
             }
         }
@@ -158,6 +159,13 @@ class StaffController extends Controller
         return redirect('/staff');
     }
 
+    /**
+     * Remove employee
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
+     */
     public function destroy($id)
     {
         /** @var Employee $employee */

@@ -10,13 +10,14 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 /**
- * Class Manager
+ * Class Manager represents manager of the company
  * @package App\Models\Staff
  * @property int $id                    Id of manager
  * @property int $employee_id           Manager's employee id
  *
- * @property Collection $subordinates   Array of employees that belong to that manager
- * @property Employee $asEmployee       Employee which that manager is
+ * @property Collection $subordinates   Array of employees managed by this manager
+ * @property Employee $asEmployee       The Employee this manager is
+ * @property Manager|null $manager      This manager's manager
  */
 class Manager extends Model implements StaffMember
 {
@@ -50,7 +51,7 @@ class Manager extends Model implements StaffMember
         ];
         if ($this->asEmployee->belongs_to_manager ?? false) {
             $ids = $this->asEmployee->getManagerIds();
-            $each_subordinate[] =  Rule::notIn($ids);
+            $each_subordinate[] = Rule::notIn($ids);
         }
         return [
             'is_manager' => [
@@ -81,7 +82,7 @@ class Manager extends Model implements StaffMember
 
     public function manager()
     {
-        return $this->asEmployee->manager;
+        return $this->asEmployee->manager();
     }
 
     public function subordinates()
@@ -99,6 +100,11 @@ class Manager extends Model implements StaffMember
         return $this->asEmployee->countSalary();
     }
 
+    /**
+     * Set new manager's subordinates
+     *
+     * @param array $array_of_ids new subordinates' ids
+     */
     public function setSubordinates($array_of_ids)
     {
 
@@ -111,6 +117,9 @@ class Manager extends Model implements StaffMember
             ->update(['belongs_to_manager' => $this->id]);
     }
 
+    /**
+     * Delete all subordinates of that manager
+     */
     public function rmSubordinates()
     {
         $table = (new Employee())->table;

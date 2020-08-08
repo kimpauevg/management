@@ -9,21 +9,21 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 /**
- * Class Employee
+ * Class Employee represents employee of the company
  * @package App\Models\Staff
  * @property int $id                    Id of employee
  * @property string $name               Name of employee
  * @property int $salary_type           Id of method used to calculate salary
  * @property float|string $salary       Salary per period
  * @property string $phone              Phone of user
- * @property int $belongs_to_manager    Id of that employee's manager
- * @property string $last_got_salary    When that employee got paid last time
+ * @property int $belongs_to_manager    Id of this employee's manager
+ * @property string $last_got_salary    When this employee got paid last time
  *
  * @property string $created_at
  * @property string $updated_at
  *
- * @property  Manager|null $asManager   Manager model if that employee is an manager
- * @property  Manager|null $manager     Manager model that user belongs to
+ * @property  Manager|null $asManager   Manager model if this employee is an manager
+ * @property  Manager|null $manager     Manager model this user belongs to
  */
 class Employee extends Model implements StaffMember
 {
@@ -162,8 +162,8 @@ class Employee extends Model implements StaffMember
     }
 
     /**
-     * @param string|int $for          Manager's id
-     * @param array $all_staff    All staff that needs to be checked
+     * @param string|int $for Manager's id
+     * @param array $all_staff All staff that needs to be checked
      * @return array
      */
     private static function getDependentEmployees($for, array $all_staff): array
@@ -186,7 +186,7 @@ class Employee extends Model implements StaffMember
     }
 
     /**
-     * Returns all managers of that user
+     * Returns all managers' employee ids of this employee
      *
      * @return array
      */
@@ -209,11 +209,16 @@ class Employee extends Model implements StaffMember
         }
         return $all_ids;
     }
+
+    /**
+     * "Pays" salary to this employee
+     */
     public function getPayment()
     {
         $this->last_got_salary = date('Y-m-d H:i:s');
         $this->save();
     }
+
     public function delete()
     {
         $as_manager = $this->asManager;
