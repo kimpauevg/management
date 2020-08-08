@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Validator;
 
 class StaffController extends Controller
 {
+    /**
+     * Main page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $staff = Employee::getDependencyTree();
@@ -21,11 +26,22 @@ class StaffController extends Controller
         ]);
     }
 
+    /**
+     * Employee creation form
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         return view('staff.create');
     }
 
+    /**
+     * Create new employee
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function store(Request $request)
     {
         $rules = array_merge(Employee::createRules(), (new Manager())->subordinateRules());
@@ -47,9 +63,15 @@ class StaffController extends Controller
         return redirect('/staff');
     }
 
+    /**
+     * Employee editing form
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($id)
     {
-        $employee = Employee::where('id', $id)->first();
+        $employee = Employee::find($id);
         if (!$employee) {
             abort(404);
         }
@@ -60,11 +82,18 @@ class StaffController extends Controller
         ]);
     }
 
-
+    /**
+     * Update already existing employee
+     *
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
+     */
     public function update($id, Request $request)
     {
         /** @var Employee $employee */
-        $employee = Employee::where('id', $id)->first();
+        $employee = Employee::find($id);
         if (!$employee) {
             abort(404);
         }
@@ -94,7 +123,6 @@ class StaffController extends Controller
             $as_manager->setSubordinates($request_data['subordinate'] ?? []);
         } else {
             if($as_manager) {
-                $as_manager->rmSubordinates();
                 $as_manager->delete();
             }
         }
@@ -102,6 +130,12 @@ class StaffController extends Controller
         return redirect('/staff');
     }
 
+    /**
+     * Pay salary to employees
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function pay(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -121,6 +155,17 @@ class StaffController extends Controller
         $employees->each(function (Employee $employee) {
             $employee->getPayment();
         });
+        return redirect('/staff');
+    }
+
+    public function destroy($id)
+    {
+        /** @var Employee $employee */
+        $employee = Employee::find($id);
+        if (!$employee) {
+            abort(404);
+        }
+        $employee->delete();
         return redirect('/staff');
     }
 }
