@@ -17,10 +17,13 @@
                 Mgr. ID
             </div>
             <div class="d-md-table-cell staff-table-cell">
-                Hired since
+                Works since
             </div>
             <div class="d-md-table-cell staff-table-cell">
-                Salary, $
+                Salary per period, $
+            </div>
+            <div class="d-md-table-cell staff-table-cell">
+                Salary earned, $
             </div>
         </div>
     @foreach($staff as $member)
@@ -49,6 +52,9 @@
             </div>
             <div class="staff-table-cell">
                 {{$member['salary']}}
+            </div>
+            <div class="staff-table-cell">
+                {{$member['salary_earned']}}
             </div>
         </div>
         @if(
