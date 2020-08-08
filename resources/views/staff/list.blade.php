@@ -2,7 +2,6 @@
 @section('styles')
     <style>
         .control-row {
-            background: grey;
             padding: 10px;
             border-radius: 5px;
             margin-bottom: 30px;
@@ -47,6 +46,9 @@
         .staff-table-cell:nth-child(5) {
             width: 10%;
         }
+        .staff-table-cell:nth-child(7) {
+            width: 15%;
+        }
         .staff-table-cell:last-child {
             width: 15%;
         }
@@ -74,7 +76,7 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="table staff-table">
                     <form id="pay" method="POST" action="/staff/pay">
                         @csrf
@@ -110,7 +112,7 @@
             })
         })
         function checkButton() {
-            let checked = $('input[type="checkbox"]:checked');
+            let checked = $('input[type="checkbox"]:checked:not(.checkbox-all)');
             if (checked.length) {
                 $('button[form="pay"]').removeAttr('disabled')
             } else {

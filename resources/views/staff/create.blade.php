@@ -209,13 +209,17 @@ $is_manager = old('is_manager', $is_manager);
             $('#delete').click(() => {
                 if (confirm('Are you sure you want to delete this employee?')) {
                     $.ajax({
+                        method: 'DELETE',
                         url: '{{route('staff.destroy', [
                         'staff' => $id
                     ])}}',
-                        success: function () {
-                            window.location.replace('{{route('staff.index')}}')
-                        }
+                        data: {
+                            _token: '{{csrf_token()}}'
+                        },
+                        async: false
                     })
+                    window.location = '{{route('staff.index')}}'
+
                 }
             });
             @endif
