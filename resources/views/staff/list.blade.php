@@ -68,7 +68,7 @@
                     </a>
                 </div>
             <div class="col-md-5 offset-md-1">
-                <button type="submit" form="pay" class="btn btn-primary">
+                <button type="submit" form="pay" class="btn btn-primary" disabled>
                     Pay salary
                 </button>
             </div>
@@ -106,7 +106,22 @@
                     })
 
                 }
+                checkButton();
             })
         })
+        function checkButton() {
+            let checked = $('input[type="checkbox"]:checked');
+            if (checked.length) {
+                $('button[form="pay"]').removeAttr('disabled')
+            } else {
+                $('button[form="pay"]').attr('disabled', '')
+            }
+
+        }
+        $('input[type="checkbox"]').click(() => {
+            checkButton()
+        })
+        checkButton();
+
     </script>
 @endsection
