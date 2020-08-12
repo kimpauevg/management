@@ -44,6 +44,7 @@ class Employee extends Model implements StaffMember
             'name' => [
                 'required',
                 'string',
+                'max:255'
             ],
             'salary' => [
                 'required',

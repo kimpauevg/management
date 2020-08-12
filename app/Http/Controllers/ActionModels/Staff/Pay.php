@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\API\Staff;
+namespace App\Http\Controllers\ActionModels\Staff;
 
 use App\Models\Staff\Employee;
 use App\Models\Staff\Manager;

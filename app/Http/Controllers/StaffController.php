@@ -7,10 +7,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\ActionModels\Staff\Index;
 use App\Http\Controllers\ActionModels\Staff\Store;
 use App\Http\Controllers\ActionModels\Staff\Update;
-use App\Models\API\Staff\Pay;
+use App\Http\Controllers\ActionModels\Staff\Pay;
 use App\Models\Staff\Employee;
 use App\Models\Staff\Manager;
-use http\Env\Response;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -126,9 +125,7 @@ class StaffController extends Controller
         $employees->each(function (Employee $employee) {
             $employee->getPayment();
         });
-        return response()->json([
-            'message' => 'success'
-        ]);
+        return redirect('/staff');
     }
 
     /**
