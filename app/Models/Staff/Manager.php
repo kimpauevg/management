@@ -50,7 +50,7 @@ class Manager extends Model implements StaffMember
             'exists:' . Employee::class . ',id',
         ];
         if ($this->asEmployee->belongs_to_manager ?? false) {
-            $ids = $this->asEmployee->getManagerIds();
+            $ids = $this->asEmployee->getManagersEmployeeIds();
             $each_subordinate[] = Rule::notIn($ids);
         }
         return [
